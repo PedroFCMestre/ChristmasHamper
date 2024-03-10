@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{885940C5-2D9B-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChristmasHamper.Domain", "ChristmasHamper.Domain\ChristmasHamper.Domain.csproj", "{3F98CC90-C9F9-4BCD-8322-E5D562BFC849}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChristmasHamper.Application", "ChristmasHamper.Application\ChristmasHamper.Application.csproj", "{F344643F-AFC5-4C0A-88F0-84542FE56EB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{3F98CC90-C9F9-4BCD-8322-E5D562BFC849}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F98CC90-C9F9-4BCD-8322-E5D562BFC849}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F98CC90-C9F9-4BCD-8322-E5D562BFC849}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F344643F-AFC5-4C0A-88F0-84542FE56EB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F344643F-AFC5-4C0A-88F0-84542FE56EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F344643F-AFC5-4C0A-88F0-84542FE56EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F344643F-AFC5-4C0A-88F0-84542FE56EB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{F4B66CF1-EC20-48DE-8700-C9FE75894184} = {6CCB5B2D-ECC9-4164-9CFC-79F4164618D6}
 		{885940C5-2D9B-429B-883B-E8A343834271} = {6CCB5B2D-ECC9-4164-9CFC-79F4164618D6}
 		{3F98CC90-C9F9-4BCD-8322-E5D562BFC849} = {39DF807D-B5E7-4982-9D7D-89B4106C0616}
+		{F344643F-AFC5-4C0A-88F0-84542FE56EB2} = {39DF807D-B5E7-4982-9D7D-89B4106C0616}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D5936B93-DE5F-435A-A16F-321351CAC9CE}
