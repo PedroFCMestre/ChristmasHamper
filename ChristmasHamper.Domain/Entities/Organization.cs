@@ -10,6 +10,7 @@ namespace ChristmasHamper.Domain.Entities;
 public class Organization: Auditable
 {
     public int OrganizationId { get; set; }
-    public required string OrganizationName { get; set;}
+    public required string Name { get; set;}
+    public required string Acronym { get; set;}
 }
 
