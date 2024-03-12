@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ChristmasHamper.Application.Features.Organizations;
+namespace ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
 
 public class GetOrganizationQuery : IRequest<OrganizationDto>
 {
