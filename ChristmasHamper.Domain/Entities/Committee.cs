@@ -9,7 +9,7 @@ namespace ChristmasHamper.Domain.Entities;
 
 public class Committee: Auditable
 {
-    public int CommitteeId { get; set; }
+    public int Id { get; set; }
 
     public required Organization Organization { get; set; }
 
