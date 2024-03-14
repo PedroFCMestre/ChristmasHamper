@@ -9,7 +9,7 @@ namespace ChristmasHamper.Domain.Entities;
 
 public class User: Auditable
 {
-    public int UserId { get; set; }
+    public int Id { get; set; }
 
     public required string Name { get; set; }
 

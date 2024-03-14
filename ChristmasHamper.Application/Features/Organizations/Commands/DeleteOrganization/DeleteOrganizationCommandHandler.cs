@@ -5,7 +5,7 @@ using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.DeleteOrganization;
 
-internal class DeleteOrganizationCommandHandler(IOrganizationRepository organizationRepository, IMapper mapper) : IRequestHandler<DeleteOrganizationCommand, BaseResponse>
+internal class DeleteOrganizationCommandHandler(IOrganizationRepository organizationRepository) : IRequestHandler<DeleteOrganizationCommand, BaseResponse>
 {
     private readonly IOrganizationRepository _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
 
@@ -28,7 +28,9 @@ internal class DeleteOrganizationCommandHandler(IOrganizationRepository organiza
         }
         else
         {
-            await _organizationRepository.DeleteAsync(request.OrganizationId);
+            var organizationToDelete = await _organizationRepository.GetByIdAsync(request.OrganizationId);
+
+            await _organizationRepository.DeleteAsync(organizationToDelete);
         }
 
         return response;
