@@ -28,7 +28,7 @@ internal class DeleteOrganizationCommandHandler(IOrganizationRepository organiza
         }
         else
         {
-            var organizationToDelete = await _organizationRepository.GetByIdAsync(request.OrganizationId);
+            var organizationToDelete = await _organizationRepository.GetByIdAsync(request.Id);
 
             await _organizationRepository.DeleteAsync(organizationToDelete);
         }

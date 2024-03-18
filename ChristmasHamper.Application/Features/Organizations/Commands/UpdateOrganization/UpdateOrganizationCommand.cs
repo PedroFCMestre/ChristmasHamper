@@ -5,7 +5,7 @@ namespace ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrga
 
 public class UpdateOrganizationCommand : IRequest<BaseResponse>
 {
-    public int OrganizationId { get; set; }
+    public int Id { get; set; }
     public required string Name { get; set; }
     public required string Acronym { get; set; }
 }

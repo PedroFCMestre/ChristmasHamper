@@ -28,12 +28,12 @@ public class CreateOrganizationCommandValidator : AbstractValidator<CreateOrgani
 
     private async Task<bool> OrganizationWithNameUnique(CreateOrganizationCommand command, CancellationToken token)
     {
-        return !(await _organizationRepository.IsNameUnique(command.Name));
+        return await _organizationRepository.IsNameUnique(command.Name);
     }
 
     private async Task<bool> OrganizationWithAcronymUnique(CreateOrganizationCommand command, CancellationToken token)
     {
-        return !(await _organizationRepository.IsAcronymUnique(command.Acronym));
+        return await _organizationRepository.IsAcronymUnique(command.Acronym);
     }
 }
 

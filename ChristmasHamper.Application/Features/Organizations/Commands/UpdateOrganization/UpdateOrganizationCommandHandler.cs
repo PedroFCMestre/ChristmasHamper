@@ -31,7 +31,7 @@ public class UpdateOrganizationCommandHandler (IOrganizationRepository organizat
         }
         else
         {
-            var organizationToUpdate = await _organizationRepository.GetByIdAsync(request.OrganizationId);
+            var organizationToUpdate = await _organizationRepository.GetByIdAsync(request.Id);
 
             _mapper.Map(request, organizationToUpdate, typeof(UpdateOrganizationCommand), typeof(Organization));
             //_mapper.Map(request, organizationToUpdate);
