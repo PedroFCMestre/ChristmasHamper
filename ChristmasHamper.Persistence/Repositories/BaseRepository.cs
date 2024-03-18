@@ -19,11 +19,6 @@ public class BaseRepository<T>(ChristmasHamperDbContext dbContext) : IAsyncRepos
         return await _dbContext.Set<T>().ToListAsync();
     }
 
-    public async Task<bool> ExistsByIdAsync(int id)
-    {
-        return await _dbContext.Set<T>().AnyAsync(e => (int)e.GetType().GetProperty("Id")!.GetValue(e)! == id);
-    }
-
     public async Task<T> AddAsync(T entity)
     {
         await _dbContext.Set<T>().AddAsync(entity);

@@ -4,6 +4,7 @@ namespace ChristmasHamper.Application.Contracts.Persistence;
 
 public interface IOrganizationRepository : IAsyncRepository<Organization>
 {
+    Task<bool> ExistsByIdAsync(int id);
     Task<bool> IsNameUnique(string name);
     Task<bool> IsNameUnique(int id, string name);
     Task<bool> IsAcronymUnique(string acronym);

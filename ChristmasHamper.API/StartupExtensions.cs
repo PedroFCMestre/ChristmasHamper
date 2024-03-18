@@ -11,8 +11,8 @@ public static class StartupExtensions
         builder.Services.AddPersistenceServices(builder.Configuration);
 
         builder.Services.AddControllers();
-        //builder.Services.AddEndpointsApiExplorer();
-        //builder.Services.AddSwaggerGen();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
         /*builder.Services.AddCors(
             options => options.AddPolicy(
@@ -29,11 +29,11 @@ public static class StartupExtensions
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
-        /*if (app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-        }*/
+        }
 
         //app.UseCors("open");
         app.UseHttpsRedirection();

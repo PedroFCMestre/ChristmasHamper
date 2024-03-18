@@ -36,7 +36,7 @@ public class CreateOrganizationCommandHandler(IOrganizationRepository organizati
 
             organization = await _organizationRepository.AddAsync(organization);
 
-            response.OrganizationId = organization.Id;
+            response.Id = organization.Id;
         }
 
         return response;

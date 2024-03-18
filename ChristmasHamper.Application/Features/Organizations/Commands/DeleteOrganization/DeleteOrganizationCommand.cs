@@ -3,8 +3,8 @@ using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.DeleteOrganization;
 
-public class DeleteOrganizationCommand : IRequest<BaseResponse>
+public class DeleteOrganizationCommand(int id) : IRequest<BaseResponse>
 {
-    public int OrganizationId;
+    public int Id { get; set; } = id;
 }
 
