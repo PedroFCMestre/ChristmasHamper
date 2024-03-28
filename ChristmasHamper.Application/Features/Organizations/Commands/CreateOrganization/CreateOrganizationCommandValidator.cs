@@ -22,16 +22,16 @@ public class CreateOrganizationCommandValidator : AbstractValidator<CreateOrgani
             .MaximumLength(10).WithMessage("{PropertyName} must not exceed 10 characters.");
 
         RuleFor(x => x)
-            .MustAsync(OrganizationWithNameUnique).WithMessage("An organization with the same name already exists.")
-            .MustAsync(OrganizationWithAcronymUnique).WithMessage("An organization with the same acronym already exists.");
+            .MustAsync(OrganizationWithUniqueName).WithMessage("An organization with the same name already exists.")
+            .MustAsync(OrganizationWithUniqueAcronym).WithMessage("An organization with the same acronym already exists.");
     }
 
-    private async Task<bool> OrganizationWithNameUnique(CreateOrganizationCommand command, CancellationToken token)
+    private async Task<bool> OrganizationWithUniqueName(CreateOrganizationCommand command, CancellationToken token)
     {
-        return await _organizationRepository.IsNameUnique(command.Name);
+        return await _organizationRepository.IsNameUnique(command.Name); ;
     }
 
-    private async Task<bool> OrganizationWithAcronymUnique(CreateOrganizationCommand command, CancellationToken token)
+    private async Task<bool> OrganizationWithUniqueAcronym(CreateOrganizationCommand command, CancellationToken token)
     {
         return await _organizationRepository.IsAcronymUnique(command.Acronym);
     }
