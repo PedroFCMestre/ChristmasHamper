@@ -30,7 +30,7 @@ public class DeleteOrganizationCommandHandler(IOrganizationRepository organizati
         {
             var organizationToDelete = await _organizationRepository.GetByIdAsync(request.Id);
 
-            await _organizationRepository.DeleteAsync(organizationToDelete);
+            await _organizationRepository.DeleteAsync(organizationToDelete!);
         }
 
         return response;

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ChristmasHamper.Application.Contracts.Persistence;
 using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
-using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 using ChristmasHamper.Application.Profiles;
 using ChristmasHamper.Application.UnitTests.Mocks;
 using Moq;
