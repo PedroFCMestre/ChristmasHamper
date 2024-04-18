@@ -15,7 +15,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
 {
     //private readonly CustomWebApplicationFactory<Program> _factory = factory ?? throw new ArgumentNullException(nameof(CustomWebApplicationFactory<Program>));
     private readonly HttpClient _client = factory.CreateClient() ?? throw new ArgumentNullException(nameof(factory));
-    private readonly string _controller = "organization";
+    private readonly string _apiUri = "/api/organization";
 
     [Fact]
     public async Task GetAllOrganizations_ReturnsOk()
@@ -24,7 +24,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
 
         
         //Act
-        var response = await _client.GetAsync($"/api/{_controller}/all");
+        var response = await _client.GetAsync($"{_apiUri}/all");
 
         //Assert
         response.EnsureSuccessStatusCode();
@@ -48,7 +48,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var organizationId = 1;
 
         //Act
-        var response = await _client.GetAsync($"/api/{_controller}/{organizationId}");
+        var response = await _client.GetAsync($"{_apiUri}/{organizationId}");
 
         //Assert
         response.EnsureSuccessStatusCode();
@@ -70,7 +70,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var organizationId = 99;
 
         //Act
-        var response = await _client.GetAsync($"/api/{_controller}/{organizationId}");
+        var response = await _client.GetAsync($"{_apiUri}/{organizationId}");
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -83,7 +83,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var organizationId = "test";
 
         //Act
-        var response = await _client.GetAsync($"/api/{_controller}/{organizationId}");
+        var response = await _client.GetAsync($"{_apiUri}/{organizationId}");
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -102,7 +102,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var content = new StringContent(JsonSerializer.Serialize(createCommand), Encoding.UTF8, "application/json");
 
         //Act
-        var response = await _client.PostAsync($"/api/{_controller}", content);
+        var response = await _client.PostAsync($"{_apiUri}", content);
 
         //Assert
         response.EnsureSuccessStatusCode();
@@ -126,7 +126,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var content = new StringContent(JsonSerializer.Serialize(createCommand), Encoding.UTF8, "application/json");
 
         //Act
-        var response = await _client.PostAsync($"/api/{_controller}", content);
+        var response = await _client.PostAsync($"{_apiUri}", content);
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -151,7 +151,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var content = new StringContent(JsonSerializer.Serialize(updateCommand), Encoding.UTF8, "application/json");
 
         //Act
-        var response = await _client.PutAsync($"/api/{_controller}", content);
+        var response = await _client.PutAsync($"{_apiUri}", content);
 
         //Assert
         response.EnsureSuccessStatusCode();
@@ -176,7 +176,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var content = new StringContent(JsonSerializer.Serialize(updateCommand), Encoding.UTF8, "application/json");
 
         //Act
-        var response = await _client.PutAsync($"/api/{_controller}", content);
+        var response = await _client.PutAsync($"{_apiUri}", content);
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -194,7 +194,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var id = 3;
 
         //Act
-        var response = await _client.DeleteAsync($"/api/{_controller}/{id}");
+        var response = await _client.DeleteAsync($"{_apiUri}/{id}");
 
         //Assert
         response.EnsureSuccessStatusCode();
@@ -212,7 +212,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var id = 99;
 
         //Act
-        var response = await _client.DeleteAsync($"/api/{_controller}/{id}");
+        var response = await _client.DeleteAsync($"{_apiUri}/{id}");
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
