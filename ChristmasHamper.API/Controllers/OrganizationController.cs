@@ -4,6 +4,7 @@ using ChristmasHamper.Application.Features.Organizations.Commands.DeleteOrganiza
 using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
+using ChristmasHamper.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,7 @@ namespace ChristmasHamper.API.Controllers;
 [ApiController]
 public class OrganizationController(IMediator mediator) : Controller
 {
-    private readonly IMediator _mediator = mediator;
+    private readonly IMediator _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
     [HttpGet("all", Name ="GetAllOrganizations")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -26,7 +27,7 @@ public class OrganizationController(IMediator mediator) : Controller
     [HttpGet("{id}", Name = "GetOrganizationById")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<OrganizationDto>>> GetOrganizationById(int id)
+    public async Task<ActionResult<OrganizationDto>> GetOrganizationById(int id)
     {
         var dto = await _mediator.Send(new GetOrganizationQuery(id));
 
@@ -41,7 +42,7 @@ public class OrganizationController(IMediator mediator) : Controller
     [HttpPost(Name = "AddOrganization")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<List<OrganizationDto>>> CreateOrganization([FromBody] CreateOrganizationCommand createOrganizationCommand)
+    public async Task<ActionResult<CreateOrganizationCommandResponse>> CreateOrganization([FromBody] CreateOrganizationCommand createOrganizationCommand)
     {
         var response = await _mediator.Send(createOrganizationCommand);
         
@@ -56,7 +57,7 @@ public class OrganizationController(IMediator mediator) : Controller
     [HttpPut(Name = "UpdateOrganization")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<List<OrganizationDto>>> UpdateOrganization([FromBody] UpdateOrganizationCommand updateOrganizationCommand)
+    public async Task<ActionResult<BaseResponse>> UpdateOrganization([FromBody] UpdateOrganizationCommand updateOrganizationCommand)
     {
         var response = await _mediator.Send(updateOrganizationCommand);
 
@@ -72,7 +73,7 @@ public class OrganizationController(IMediator mediator) : Controller
     [HttpDelete("{id}", Name = "DeleteOrganization")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<OrganizationDto>>> DeleteOrganization(int id)
+    public async Task<ActionResult<BaseResponse>> DeleteOrganization(int id)
     {
         var response = await _mediator.Send(new DeleteOrganizationCommand(id));
 

@@ -1,7 +1,6 @@
 ﻿using ChristmasHamper.Application.Contracts.Persistence;
 using ChristmasHamper.Domain.Entities;
 using Moq;
-using System.Reflection.Metadata.Ecma335;
 
 namespace ChristmasHamper.Application.UnitTests.Mocks;
 
