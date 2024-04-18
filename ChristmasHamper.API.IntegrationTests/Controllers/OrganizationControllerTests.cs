@@ -18,7 +18,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
     private readonly string _controller = "organization";
 
     [Fact]
-    public async Task GetAllOrganizations_ReturnsSuccessResult()
+    public async Task GetAllOrganizations_ReturnsOk()
     {
         //Arrange
 
@@ -42,7 +42,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
     }
 
     [Fact]
-    public async Task GetOrganizationById_ValidId_ReturnsSuccessResult()
+    public async Task GetOrganizationById_ValidId_ReturnsOk()
     {
         //Arrange
         var organizationId = 1;
@@ -64,7 +64,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
     }
 
     [Fact]
-    public async Task GetOrganizationById_NonexistentId_ReturnsNotFoundResult()
+    public async Task GetOrganizationById_NonexistentId_ReturnsNotFound()
     {
         //Arrange
         var organizationId = 99;
@@ -77,7 +77,7 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
     }
 
     [Fact]
-    public async Task GetOrganizationById_InvalidId_ReturnsBadRequestResult()
+    public async Task GetOrganizationById_InvalidId_ReturnsBadRequest()
     {
         //Arrange
         var organizationId = "test";
