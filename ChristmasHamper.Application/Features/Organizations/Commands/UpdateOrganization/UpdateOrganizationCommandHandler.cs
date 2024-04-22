@@ -6,10 +6,16 @@ using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 
-public class UpdateOrganizationCommandHandler (IOrganizationRepository organizationRepository, IMapper mapper) : IRequestHandler<UpdateOrganizationCommand, BaseResponse>
+public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizationCommand, BaseResponse>
 {
-    private readonly IOrganizationRepository _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
-    private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    private readonly IOrganizationRepository _organizationRepository;
+    private readonly IMapper _mapper;
+
+    public UpdateOrganizationCommandHandler(IOrganizationRepository organizationRepository, IMapper mapper)
+    {
+        _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    }
 
     public async Task<BaseResponse> Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
     {

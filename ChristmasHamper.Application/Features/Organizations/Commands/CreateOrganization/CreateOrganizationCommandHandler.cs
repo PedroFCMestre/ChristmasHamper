@@ -7,10 +7,16 @@ using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganization;
 
-public class CreateOrganizationCommandHandler(IOrganizationRepository organizationRepository, IMapper mapper) : IRequestHandler<CreateOrganizationCommand, CreateOrganizationCommandResponse>
+public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, CreateOrganizationCommandResponse>
 {
-    private readonly IOrganizationRepository _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
-    private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    private readonly IOrganizationRepository _organizationRepository;
+    private readonly IMapper _mapper;
+
+    public CreateOrganizationCommandHandler(IOrganizationRepository organizationRepository, IMapper mapper)
+    {
+        _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    }
 
     public async Task<CreateOrganizationCommandResponse> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
     {

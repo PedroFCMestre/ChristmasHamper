@@ -5,9 +5,14 @@ using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.DeleteOrganization;
 
-public class DeleteOrganizationCommandHandler(IOrganizationRepository organizationRepository) : IRequestHandler<DeleteOrganizationCommand, BaseResponse>
+public class DeleteOrganizationCommandHandler : IRequestHandler<DeleteOrganizationCommand, BaseResponse>
 {
-    private readonly IOrganizationRepository _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
+    private readonly IOrganizationRepository _organizationRepository;
+
+    public DeleteOrganizationCommandHandler(IOrganizationRepository organizationRepository)
+    {
+        _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
+    }
 
     public async Task<BaseResponse> Handle(DeleteOrganizationCommand request, CancellationToken cancellationToken)
     {

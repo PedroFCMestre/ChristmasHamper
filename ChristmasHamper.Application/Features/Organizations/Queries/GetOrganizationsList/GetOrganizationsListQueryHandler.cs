@@ -5,10 +5,16 @@ using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
 
-public class GetOrganizationsListQueryHandler(IAsyncRepository<Organization> organizationRepository, IMapper mapper) : IRequestHandler<GetOrganizationsListQuery, List<OrganizationDto>>
+public class GetOrganizationsListQueryHandler : IRequestHandler<GetOrganizationsListQuery, List<OrganizationDto>>
 {
-    private readonly IAsyncRepository<Organization> _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
-    private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    private readonly IAsyncRepository<Organization> _organizationRepository;
+    private readonly IMapper _mapper;
+
+    public GetOrganizationsListQueryHandler(IAsyncRepository<Organization> organizationRepository, IMapper mapper)
+    {
+        _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    }
 
     public async Task<List<OrganizationDto>> Handle(GetOrganizationsListQuery request, CancellationToken cancellationToken)
     {
