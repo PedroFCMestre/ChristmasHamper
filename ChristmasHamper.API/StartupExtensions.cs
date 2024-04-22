@@ -1,4 +1,6 @@
-﻿using ChristmasHamper.Application;
+﻿using ChristmasHamper.API.Services;
+using ChristmasHamper.Application;
+using ChristmasHamper.Application.Contracts;
 using ChristmasHamper.Persistence;
 
 namespace ChristmasHamper.API;
@@ -9,6 +11,10 @@ public static class StartupExtensions
     {
         builder.Services.AddApplicationServices();
         builder.Services.AddPersistenceServices(builder.Configuration);
+
+        builder.Services.AddScoped<ILoggedInUserService, LoggedInUserService>();
+
+        builder.Services.AddHttpContextAccessor();
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
