@@ -26,14 +26,14 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
             using (var scope = serviceProvider.CreateScope())
             {
                 var scopedServices = scope.ServiceProvider;
-                var context = scopedServices.GetRequiredService<ChristmasHamperDbContext>();
+                var dbContext = scopedServices.GetRequiredService<ChristmasHamperDbContext>();
                 var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TProgram>>>();
 
-                context.Database.EnsureCreated();
+                dbContext.Database.EnsureCreated();
 
                 try
                 {
-                    Utilities.InitializeDbForTests(context);
+                    Utilities.InitializeDbForTests(dbContext);
                 }
                 catch (Exception ex) 
                 {

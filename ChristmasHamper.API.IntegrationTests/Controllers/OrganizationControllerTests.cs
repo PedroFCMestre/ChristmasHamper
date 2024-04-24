@@ -11,11 +11,15 @@ using Xunit;
 
 namespace ChristmasHamper.API.IntegrationTests.Controllers;
 
-public class OrganizationControllerTests(CustomWebApplicationFactory<Program> factory) : IClassFixture<CustomWebApplicationFactory<Program>>
+public class OrganizationControllerTests: IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    //private readonly CustomWebApplicationFactory<Program> _factory = factory ?? throw new ArgumentNullException(nameof(CustomWebApplicationFactory<Program>));
-    private readonly HttpClient _client = factory.CreateClient() ?? throw new ArgumentNullException(nameof(factory));
+    private readonly HttpClient _client;
     private readonly string _apiUri = "/api/organization";
+
+    public OrganizationControllerTests(CustomWebApplicationFactory<Program> factory)
+    {
+        _client = factory.CreateClient() ?? throw new ArgumentNullException(nameof(factory));
+    }
 
     [Fact]
     public async Task GetAllOrganizations_ReturnsOk()
@@ -33,9 +37,6 @@ public class OrganizationControllerTests(CustomWebApplicationFactory<Program> fa
         var responseString = await response.Content.ReadAsStringAsync();
 
         var result = JsonSerializer.Deserialize<List<OrganizationDto>>(responseString, Utilities.options);
-
-        //Assert.IsType<List<OrganizationDto>>(result);
-        //Assert.NotEmpty(result);
 
         result.Should().BeOfType<List<OrganizationDto>>();
         result.Should().NotBeEmpty();

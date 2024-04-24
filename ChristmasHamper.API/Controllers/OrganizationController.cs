@@ -12,9 +12,14 @@ namespace ChristmasHamper.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class OrganizationController(IMediator mediator) : Controller
+public class OrganizationController : Controller
 {
-    private readonly IMediator _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    private readonly IMediator _mediator;
+
+    public OrganizationController(IMediator mediator)
+    {
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
     [HttpGet("all", Name ="GetAllOrganizations")]
     [ProducesResponseType(StatusCodes.Status200OK)]

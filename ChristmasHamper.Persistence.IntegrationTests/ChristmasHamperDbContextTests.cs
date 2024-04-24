@@ -1,51 +1,44 @@
-﻿using ChristmasHamper.Application.Contracts;
-using ChristmasHamper.Domain.Entities;
+﻿using ChristmasHamper.Domain.Entities;
 using ChristmasHamper.Persistence.DbContexts;
+using ChristmasHamper.Persistence.IntegrationTests.Base;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 
 namespace ChristmasHamper.Persistence.IntegrationTests;
 
 public class ChristmasHamperDbContextTests
 {
     private readonly ChristmasHamperDbContext _dbContext;
-    private readonly Mock<ILoggedInUserService> _loggedInUserServiceMock;
-    private readonly string _loggedInUserId;
 
     public ChristmasHamperDbContextTests()
     {
-        var dbContextOptions = new DbContextOptionsBuilder<ChristmasHamperDbContext>().UseInMemoryDatabase("ChristmasHamperDbContextInMemoryTest").Options;
-
-        _loggedInUserId = "user1";
-        _loggedInUserServiceMock = new Mock<ILoggedInUserService>();
-        _loggedInUserServiceMock.Setup(m => m.UserId).Returns(_loggedInUserId);
-
-        _dbContext = new ChristmasHamperDbContext(dbContextOptions, _loggedInUserServiceMock.Object);
+        _dbContext = ChristmasHamperContextFactory.Create();
     }
 
     [Fact]
     public async void Save_SetCreatedByProperty()
     {
-        var organization = new Organization() { Id = 1, Name = "New Organization", Acronym = "NewOg" };
+        var organization = new Organization() { Id = 3, Name = "New Organization3", Acronym = "Og3" };
 
         _dbContext.Organizations.Add(organization);
         await _dbContext.SaveChangesAsync();
 
+        organization.CreatedBy.Should().NotBeNull();
         organization.CreatedBy.Should().Be("user1");
+        organization.CreatedOn.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(3));
     }
 
     [Fact]
     public async void Save_SetLastModifiedByProperty()
     {
-        var organization = new Organization() { Id = 2, Name = "New Organization", Acronym = "NewOg" };
-        _dbContext.Organizations.Add(organization);
-        await _dbContext.SaveChangesAsync();
+        var organization = _dbContext.Organizations.Find(1);
 
-        organization.Name = "Update Organization";
+        organization!.Name = "Updated Organization1";
         _dbContext.Organizations.Update(organization);
         await _dbContext.SaveChangesAsync();
 
+        organization.LastModifiedBy.Should().NotBeNull();
         organization.LastModifiedBy.Should().Be("user1");
+        organization.LastModifiedOn.Should().NotBeNull();
+        organization.LastModifiedOn.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(3));
     }
 }

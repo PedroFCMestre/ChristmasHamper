@@ -21,15 +21,10 @@ public class DeleteOrganizationCommandHandler : IRequestHandler<DeleteOrganizati
         var validator = new DeleteOrganizationCommandValidator(_organizationRepository);
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-        if(validationResult.Errors.Count > 0) 
+        if(!validationResult.IsValid) 
         {
             response.Success = false;
-            response.ValidationErrors = [];
-
-            foreach(var error in validationResult.Errors)
-            {
-                response.ValidationErrors.Add(error.ErrorMessage);
-            }
+            response.ValidationErrors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
         }
         else
         {

@@ -25,16 +25,12 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
         var validator = new CreateOrganizationCommandValidator(_organizationRepository);
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-        if (validationResult.Errors.Count > 0)
+        //if (validationResult.Errors.Count > 0)
+        if(!validationResult.IsValid)
         {
             response.Success = false;
             response.Message = "Organization not created because of validation errors.";
-            response.ValidationErrors = [];
-            
-            foreach(var error in validationResult.Errors)
-            {
-                response.ValidationErrors.Add(error.ErrorMessage);
-            }
+            response.ValidationErrors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
         }
         else
         {

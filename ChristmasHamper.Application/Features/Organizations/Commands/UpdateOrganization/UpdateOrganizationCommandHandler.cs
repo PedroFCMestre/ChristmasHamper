@@ -24,16 +24,11 @@ public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizati
         var validator = new UpdateOrganizationCommandValidator(_organizationRepository);
         var validatorResult = await validator.ValidateAsync(request, cancellationToken);
 
-        if(validatorResult.Errors.Count > 0)
+        if(!validatorResult.IsValid)
         {
             response.Success = false;
             response.Message = "Organization not updated because of validation errors.";
-            response.ValidationErrors = [];
-
-            foreach(var error in validatorResult.Errors)
-            {
-                response.ValidationErrors.Add(error.ErrorMessage);
-            }
+            response.ValidationErrors = validatorResult.Errors.Select(e => e.ErrorMessage).ToList();
         }
         else
         {

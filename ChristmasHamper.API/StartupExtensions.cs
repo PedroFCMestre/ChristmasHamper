@@ -2,6 +2,7 @@
 using ChristmasHamper.Application;
 using ChristmasHamper.Application.Contracts;
 using ChristmasHamper.Persistence;
+using Microsoft.OpenApi.Models;
 
 namespace ChristmasHamper.API;
 
@@ -9,14 +10,23 @@ public static class StartupExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
+        AddSwagger(builder.Services);
+
+        //configure application layer services
         builder.Services.AddApplicationServices();
+
+        //configure persistence layer services
         builder.Services.AddPersistenceServices(builder.Configuration);
 
+        //adds LoggedInUserService
         builder.Services.AddScoped<ILoggedInUserService, LoggedInUserService>();
 
+        
         builder.Services.AddHttpContextAccessor();
 
+        //adds services and routing logic so controllers can handle requests
         builder.Services.AddControllers();
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -42,11 +52,30 @@ public static class StartupExtensions
         }
 
         //app.UseCors("open");
+
+        //intercepts http requests and redirects them to https (encrypts the transmitted data)
+        //comes early to force other middleware to be accessed over a secure connection
         app.UseHttpsRedirection();
+
         //app.UseAuthorization();
+
+        //maps http requests to actions on controllers that are decorated with the [ApiController] attribute
         app.MapControllers();
 
         return app;
+    }
+
+    public static void AddSwagger(IServiceCollection services)
+    {
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1.0",
+                Title = "ChristmasHamper API",
+
+            });
+        });
     }
 }
 
