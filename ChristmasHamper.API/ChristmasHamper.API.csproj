@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChristmasHamper.Application\ChristmasHamper.Application.csproj" />
+    <ProjectReference Include="..\ChristmasHamper.Infrastructure\ChristmasHamper.Infrastructure.csproj" />
     <ProjectReference Include="..\ChristmasHamper.Persistence\ChristmasHamper.Persistence.csproj" />
   </ItemGroup>
 

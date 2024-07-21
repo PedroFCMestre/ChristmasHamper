@@ -1,6 +1,7 @@
 ﻿using ChristmasHamper.API.Services;
 using ChristmasHamper.Application;
 using ChristmasHamper.Application.Contracts;
+using ChristmasHamper.Infrastructure;
 using ChristmasHamper.Persistence;
 using Microsoft.OpenApi.Models;
 
@@ -39,6 +40,10 @@ public static class StartupExtensions
                 .SetIsOriginAllowed(pol => true)
                 .AllowAnyHeader()
                 .AllowCredentials()));*/
+
+
+        //configure infrastructure layer hostBuilder
+        builder.Host.AddInfrastructureHostBuilder();
 
         return builder.Build();
     }
