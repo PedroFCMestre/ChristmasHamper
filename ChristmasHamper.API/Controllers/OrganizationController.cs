@@ -7,6 +7,7 @@ using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization
 using ChristmasHamper.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ChristmasHamper.API.Controllers;
 
@@ -45,6 +46,7 @@ public class OrganizationController : Controller
     }
 
     [HttpPost(Name = "AddOrganization")]
+    [SwaggerOperation(Summary = "Adds an organization", Description = "Inserts a new organization into the database.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CreateOrganizationCommandResponse>> CreateOrganization([FromBody] CreateOrganizationCommand createOrganizationCommand)
@@ -70,9 +72,7 @@ public class OrganizationController : Controller
             return BadRequest(details);
         }
 
-        var uri = new Uri($"/api/organization/{result.Value.Id}", UriKind.Relative);
-
-        return Created(uri, result.Value);
+        return CreatedAtAction(nameof(GetOrganizationById), new {id = result.Value.Id}, result.Value);
     }
 
     [HttpPut(Name = "UpdateOrganization")]
