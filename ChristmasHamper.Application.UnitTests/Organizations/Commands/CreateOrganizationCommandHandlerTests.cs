@@ -40,7 +40,8 @@ public class CreateOrganizationCommandHandlerTests
         var command = new CreateOrganizationCommand() { Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeTrue();
+        //result.Success.ShouldBeTrue();
+        result.IsSuccess.ShouldBeTrue();
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
         allOrganizations.Count.ShouldBe(4);
@@ -57,12 +58,20 @@ public class CreateOrganizationCommandHandlerTests
         var command = new CreateOrganizationCommand() { Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
+        /*result.Success.ShouldBeFalse();
         result.ValidationErrors!.Count.ShouldBe(1);
 
         if (result.ValidationErrors!.Count == 1)
         {
             result.ValidationErrors[0].ShouldBe(validationError);
+        }*/
+
+        result.IsSuccess.ShouldBeFalse();
+        result.Errors!.Count.ShouldBe(1);
+
+        if (!result.Errors!.Any())
+        {
+            result.Errors[0].Message.ShouldBe(validationError);
         }
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
@@ -80,12 +89,20 @@ public class CreateOrganizationCommandHandlerTests
         var command = new CreateOrganizationCommand() { Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(1);
+        //result.Success.ShouldBeFalse();
+        //result.ValidationErrors!.Count.ShouldBe(1);
 
-        if(result.ValidationErrors!.Count == 1) 
-        { 
-            result.ValidationErrors[0].ShouldBe(validationError);
+        //if(result.ValidationErrors!.Count == 1) 
+        //{ 
+        //    result.ValidationErrors[0].ShouldBe(validationError);
+        //}
+
+        result.IsSuccess.ShouldBeFalse();
+        result.Errors!.Count.ShouldBe(1);
+
+        if (!result.Errors!.Any())
+        {
+            result.Errors[0].Message.ShouldBe(validationError);
         }
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
@@ -104,13 +121,22 @@ public class CreateOrganizationCommandHandlerTests
         var command = new CreateOrganizationCommand() { Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(2);
+        //result.Success.ShouldBeFalse();
+        //result.ValidationErrors!.Count.ShouldBe(2);
 
-        if (result.ValidationErrors!.Count == 2)
+        //if (result.ValidationErrors!.Count == 2)
+        //{
+        //    result.ValidationErrors[0].ShouldBe(validationError1);
+        //    result.ValidationErrors[1].ShouldBe(validationError2);
+        //}
+
+        result.IsSuccess.ShouldBeFalse();
+        result.Errors!.Count.ShouldBe(2);
+
+        if (result.Errors!.Count == 2)
         {
-            result.ValidationErrors[0].ShouldBe(validationError1);
-            result.ValidationErrors[1].ShouldBe(validationError2);
+            result.Errors[0].Message.ShouldBe(validationError1);
+            result.Errors[1].Message.ShouldBe(validationError2);
         }
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
@@ -128,12 +154,20 @@ public class CreateOrganizationCommandHandlerTests
         var command = new CreateOrganizationCommand() { Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(1);
+        //result.Success.ShouldBeFalse();
+        //result.ValidationErrors!.Count.ShouldBe(1);
 
-        if (result.ValidationErrors!.Count == 1)
+        //if (result.ValidationErrors!.Count == 1)
+        //{
+        //    result.ValidationErrors[0].ShouldBe(validationError);
+        //}
+
+        result.IsSuccess.ShouldBeFalse();
+        result.Errors!.Count.ShouldBe(1);
+
+        if (result.Errors!.Any())
         {
-            result.ValidationErrors[0].ShouldBe(validationError);
+            result.Errors[0].Message.ShouldBe(validationError);
         }
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
@@ -151,12 +185,20 @@ public class CreateOrganizationCommandHandlerTests
         var command = new CreateOrganizationCommand() { Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(1);
+        //result.Success.ShouldBeFalse();
+        //result.ValidationErrors!.Count.ShouldBe(1);
 
-        if (result.ValidationErrors!.Count == 1)
+        //if (result.ValidationErrors!.Count == 1)
+        //{
+        //    result.ValidationErrors[0].ShouldBe(validationError);
+        //}
+
+        result.IsSuccess.ShouldBeFalse();
+        result.Errors!.Count.ShouldBe(1);
+
+        if (result.Errors!.Any())
         {
-            result.ValidationErrors[0].ShouldBe(validationError);
+            result.Errors[0].Message.ShouldBe(validationError);
         }
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();

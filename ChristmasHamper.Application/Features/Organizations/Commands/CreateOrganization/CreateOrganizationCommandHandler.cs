@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using ChristmasHamper.Application.Contracts.Persistence;
 using ChristmasHamper.Domain.Entities;
+using FluentResults;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganization;
 
-public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, CreateOrganizationCommandResponse>
+public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, Result<CreateOrganizationCommandResponse>>
 {
     private readonly IOrganizationRepository _organizationRepository;
     private readonly IMapper _mapper;
@@ -19,7 +20,7 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<CreateOrganizationCommandResponse> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CreateOrganizationCommandResponse>> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
     {
         var response = new CreateOrganizationCommandResponse();
 
@@ -30,20 +31,21 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
         {
             _logger.LogInformation("Validation erros occured when trying to insert {@Organization}", request.Name);
 
-            response.Success = false;
+            /*response.Success = false;
             response.Message = "Organization not created because of validation errors.";
-            response.ValidationErrors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+            response.ValidationErrors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();*/
+
+            return Result.Fail(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
         }
-        else
-        {
-            var organization = _mapper.Map<Organization>(request);
+        
 
-            organization = await _organizationRepository.AddAsync(organization);
+        var organization = _mapper.Map<Organization>(request);
 
-            response.Id = organization.Id;
-        }
+        organization = await _organizationRepository.AddAsync(organization);
 
-        return response;
+        response.Id = organization.Id;        
+
+        return Result.Ok(response);
     }
 }
 

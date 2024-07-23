@@ -28,8 +28,11 @@ public static class StartupExtensions
         //adds services and routing logic so controllers can handle requests
         builder.Services.AddControllers();
 
+        builder.Services.AddProblemDetails();
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
 
         /*builder.Services.AddCors(
             options => options.AddPolicy(
@@ -44,6 +47,7 @@ public static class StartupExtensions
 
         //configure infrastructure layer hostBuilder
         builder.Host.AddInfrastructureHostBuilder();
+
 
         return builder.Build();
     }

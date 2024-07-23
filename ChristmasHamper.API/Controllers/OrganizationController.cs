@@ -45,18 +45,34 @@ public class OrganizationController : Controller
     }
 
     [HttpPost(Name = "AddOrganization")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CreateOrganizationCommandResponse>> CreateOrganization([FromBody] CreateOrganizationCommand createOrganizationCommand)
     {
-        var response = await _mediator.Send(createOrganizationCommand);
-        
-        if (response.Success)
+        var result = await _mediator.Send(createOrganizationCommand);
+
+        /*if (response.Success)
         {
             return Ok(response);
         }
 
-        return BadRequest(response);
+        return BadRequest(response);*/
+
+        if (!result.IsSuccess)
+        {
+            var errors = new Dictionary<string, string[]>{{ "ValidationError", result.Errors.Select(e => e.Message).ToArray() }};
+
+            var details = new ValidationProblemDetails(errors)
+            {
+                Title = "Validation Error"
+            };
+
+            return BadRequest(details);
+        }
+
+        var uri = new Uri($"/api/organization/{result.Value.Id}", UriKind.Relative);
+
+        return Created(uri, result.Value);
     }
 
     [HttpPut(Name = "UpdateOrganization")]
