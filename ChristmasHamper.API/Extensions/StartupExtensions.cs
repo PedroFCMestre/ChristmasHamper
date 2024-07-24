@@ -5,7 +5,7 @@ using ChristmasHamper.Infrastructure;
 using ChristmasHamper.Persistence;
 using Microsoft.OpenApi.Models;
 
-namespace ChristmasHamper.API;
+namespace ChristmasHamper.API.Extensions;
 
 public static class StartupExtensions
 {
@@ -22,7 +22,7 @@ public static class StartupExtensions
         //adds LoggedInUserService
         builder.Services.AddScoped<ILoggedInUserService, LoggedInUserService>();
 
-        
+
         builder.Services.AddHttpContextAccessor();
 
         //adds services and routing logic so controllers can handle requests

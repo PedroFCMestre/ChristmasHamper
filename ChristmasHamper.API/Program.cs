@@ -1,4 +1,4 @@
-using ChristmasHamper.API;
+using ChristmasHamper.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.ConfigureServices()

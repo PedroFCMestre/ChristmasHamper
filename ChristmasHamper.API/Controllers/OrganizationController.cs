@@ -1,10 +1,12 @@
-﻿using ChristmasHamper.Application.Features.Organizations;
+﻿using ChristmasHamper.API.Extensions;
+using ChristmasHamper.Application.Features.Organizations;
 using ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganization;
 using ChristmasHamper.Application.Features.Organizations.Commands.DeleteOrganization;
 using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
 using ChristmasHamper.Application.Responses;
+using FluentResults;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -30,7 +32,7 @@ public class OrganizationController : Controller
         return Ok(dto);
     }
 
-    [HttpGet("{id}", Name = "GetOrganizationById")]
+    [HttpGet("{id:int}", Name = "GetOrganizationById")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<OrganizationDto>> GetOrganizationById(int id)
@@ -49,27 +51,14 @@ public class OrganizationController : Controller
     [SwaggerOperation(Summary = "Adds an organization", Description = "Inserts a new organization into the database.")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType(typeof(ProblemDetails))]
     public async Task<ActionResult<CreateOrganizationCommandResponse>> CreateOrganization([FromBody] CreateOrganizationCommand createOrganizationCommand)
     {
         var result = await _mediator.Send(createOrganizationCommand);
 
-        /*if (response.Success)
+        if (result.IsFailed)
         {
-            return Ok(response);
-        }
-
-        return BadRequest(response);*/
-
-        if (!result.IsSuccess)
-        {
-            var errors = new Dictionary<string, string[]>{{ "ValidationError", result.Errors.Select(e => e.Message).ToArray() }};
-
-            var details = new ValidationProblemDetails(errors)
-            {
-                Title = "Validation Error"
-            };
-
-            return BadRequest(details);
+             return BadRequest(result.HandleValidationError());
         }
 
         return CreatedAtAction(nameof(GetOrganizationById), new {id = result.Value.Id}, result.Value);
@@ -91,18 +80,19 @@ public class OrganizationController : Controller
     }
 
 
-    [HttpDelete("{id}", Name = "DeleteOrganization")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [HttpDelete("{id:int}", Name = "DeleteOrganization")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<BaseResponse>> DeleteOrganization(int id)
+    public async Task<ActionResult> DeleteOrganization(int id)
     {
-        var response = await _mediator.Send(new DeleteOrganizationCommand(id));
+        var result = await _mediator.Send(new DeleteOrganizationCommand(id));
 
-        if(response.Success) { 
-            return Ok(response);
+        if (result.IsFailed)
+        {
+            return NotFound(result.HandleNotFoundError());
         }
-        
-        return NotFound(response);
+
+        return NoContent();
     }
 }
 

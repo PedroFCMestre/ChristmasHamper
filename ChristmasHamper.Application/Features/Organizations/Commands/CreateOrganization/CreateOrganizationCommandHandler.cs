@@ -31,10 +31,6 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
         {
             _logger.LogInformation("Validation erros occured when trying to insert {@Organization}", request.Name);
 
-            /*response.Success = false;
-            response.Message = "Organization not created because of validation errors.";
-            response.ValidationErrors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();*/
-
             return Result.Fail(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
         }
         

@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using ChristmasHamper.Application.Contracts.Persistence;
 using ChristmasHamper.Application.Responses;
+using FluentResults;
 using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.DeleteOrganization;
 
-public class DeleteOrganizationCommandHandler : IRequestHandler<DeleteOrganizationCommand, BaseResponse>
+public class DeleteOrganizationCommandHandler : IRequestHandler<DeleteOrganizationCommand, Result>
 {
     private readonly IOrganizationRepository _organizationRepository;
 
@@ -14,26 +15,18 @@ public class DeleteOrganizationCommandHandler : IRequestHandler<DeleteOrganizati
         _organizationRepository = organizationRepository ?? throw new ArgumentNullException(nameof(organizationRepository));
     }
 
-    public async Task<BaseResponse> Handle(DeleteOrganizationCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(DeleteOrganizationCommand request, CancellationToken cancellationToken)
     {
-        var response = new BaseResponse();
+        var organizationToDelete = await _organizationRepository.GetByIdAsync(request.Id);
 
-        var validator = new DeleteOrganizationCommandValidator(_organizationRepository);
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-        if(!validationResult.IsValid) 
+        if (organizationToDelete is null)
         {
-            response.Success = false;
-            response.ValidationErrors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-        }
-        else
-        {
-            var organizationToDelete = await _organizationRepository.GetByIdAsync(request.Id);
-
-            await _organizationRepository.DeleteAsync(organizationToDelete!);
+            return Result.Fail("ID provided does not exist.");
         }
 
-        return response;
+        await _organizationRepository.DeleteAsync(organizationToDelete!);
+        
+        return Result.Ok();
     }
 }
 

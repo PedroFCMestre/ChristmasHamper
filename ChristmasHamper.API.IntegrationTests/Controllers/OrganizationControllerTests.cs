@@ -4,6 +4,7 @@ using ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganiza
 using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 using ChristmasHamper.Application.Responses;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -78,7 +79,7 @@ public class OrganizationControllerTests: IClassFixture<CustomWebApplicationFact
     }
 
     [Fact]
-    public async Task GetOrganizationById_InvalidId_ReturnsBadRequest()
+    public async Task GetOrganizationById_InvalidId_ReturnsNotFound()
     {
         //Arrange
         var organizationId = "test";
@@ -87,7 +88,7 @@ public class OrganizationControllerTests: IClassFixture<CustomWebApplicationFact
         var response = await _client.GetAsync($"{_apiUri}/{organizationId}");
 
         //Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -199,11 +200,6 @@ public class OrganizationControllerTests: IClassFixture<CustomWebApplicationFact
 
         //Assert
         response.EnsureSuccessStatusCode();
-
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<BaseResponse>(responseContent, Utilities.options);
-
-        result.Should().BeOfType<BaseResponse>();
     }
 
     [Fact]
@@ -219,8 +215,8 @@ public class OrganizationControllerTests: IClassFixture<CustomWebApplicationFact
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
         var responseContent = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<BaseResponse>(responseContent, Utilities.options);
+        var result = JsonSerializer.Deserialize<ProblemDetails>(responseContent, Utilities.options);
 
-        result.Should().BeOfType<BaseResponse>();
+        result.Should().BeOfType<ProblemDetails>();
     }
 }

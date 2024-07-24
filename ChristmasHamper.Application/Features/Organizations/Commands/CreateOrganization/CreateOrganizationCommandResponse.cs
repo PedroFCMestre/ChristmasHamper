@@ -4,7 +4,7 @@ namespace ChristmasHamper.Application.Features.Organizations.Commands.CreateOrga
 
 public class CreateOrganizationCommandResponse
 {
-    public int Id { get; set; } = -1;
+    public int Id { get; set; } = default;
 
     public CreateOrganizationCommandResponse()
     {

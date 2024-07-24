@@ -26,7 +26,7 @@ public class DeleteOrganizationCommandHandlerTests
         var command = new DeleteOrganizationCommand(id);
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeTrue();
+        result.IsSuccess.ShouldBeTrue();
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
         allOrganizations.Count.ShouldBe(2);
@@ -37,17 +37,17 @@ public class DeleteOrganizationCommandHandlerTests
     {
         var handler = new DeleteOrganizationCommandHandler(_mockOrganizationRepository.Object);
         var id = 99;
-        var validationError = "ID provided does not exists.";
+        var validationError = "ID provided does not exist.";
 
         var command = new DeleteOrganizationCommand(id);
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(1);
+        result.IsSuccess.ShouldBeFalse();
+        result.Errors!.Count.ShouldBe(1);
 
-        if(result.ValidationErrors!.Count == 1)
+        if(result.Errors!.Count == 1)
         {
-            result.ValidationErrors[0].ShouldBe(validationError);
+            result.Errors[0].Message.ShouldBe(validationError);
         }
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
