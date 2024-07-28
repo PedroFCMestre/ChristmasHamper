@@ -4,7 +4,6 @@ using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganiza
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
 using FluentAssertions;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text;
