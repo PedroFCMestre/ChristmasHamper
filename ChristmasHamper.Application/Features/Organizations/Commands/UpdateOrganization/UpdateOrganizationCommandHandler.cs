@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ChristmasHamper.Application.Contracts.Persistence;
-using ChristmasHamper.Application.Responses;
 using ChristmasHamper.Application.Validation;
 using ChristmasHamper.Domain.Entities;
 using FluentResults;

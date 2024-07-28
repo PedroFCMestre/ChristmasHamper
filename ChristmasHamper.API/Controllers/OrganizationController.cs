@@ -1,12 +1,9 @@
 ﻿using ChristmasHamper.API.Extensions;
-using ChristmasHamper.Application.Features.Organizations;
 using ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganization;
 using ChristmasHamper.Application.Features.Organizations.Commands.DeleteOrganization;
 using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
-using ChristmasHamper.Application.Responses;
-using FluentResults;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

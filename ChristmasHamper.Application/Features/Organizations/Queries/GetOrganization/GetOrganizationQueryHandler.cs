@@ -4,7 +4,6 @@ using ChristmasHamper.Application.Validation;
 using ChristmasHamper.Domain.Entities;
 using FluentResults;
 using MediatR;
-using System.Diagnostics.Contracts;
 
 namespace ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
 

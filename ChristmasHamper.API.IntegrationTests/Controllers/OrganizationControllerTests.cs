@@ -1,11 +1,10 @@
 ﻿using ChristmasHamper.API.IntegrationTests.Base;
-using ChristmasHamper.Application.Features.Organizations;
 using ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganization;
 using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
-using ChristmasHamper.Application.Responses;
 using FluentAssertions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text;
@@ -179,11 +178,6 @@ public class OrganizationControllerTests: IClassFixture<CustomWebApplicationFact
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<BaseResponse>(responseContent, Utilities.options);
-
-        result.Should().BeOfType<BaseResponse>();
     }
 
     [Fact]

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using ChristmasHamper.Application.Contracts.Persistence;
-using ChristmasHamper.Application.Responses;
+﻿using ChristmasHamper.Application.Contracts.Persistence;
 using ChristmasHamper.Application.Validation;
 using FluentResults;
 using MediatR;

@@ -1,7 +1,5 @@
-﻿using ChristmasHamper.Application.Contracts;
-using ChristmasHamper.Persistence.DbContexts;
+﻿using ChristmasHamper.Persistence.DbContexts;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
 namespace ChristmasHamper.Persistence.IntegrationTests.Base;
 

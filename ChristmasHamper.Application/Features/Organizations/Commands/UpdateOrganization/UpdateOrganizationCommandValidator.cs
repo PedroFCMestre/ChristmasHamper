@@ -1,5 +1,4 @@
 ﻿using ChristmasHamper.Application.Contracts.Persistence;
-using ChristmasHamper.Application.Features.Organizations.Commands.DeleteOrganization;
 using FluentValidation;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;

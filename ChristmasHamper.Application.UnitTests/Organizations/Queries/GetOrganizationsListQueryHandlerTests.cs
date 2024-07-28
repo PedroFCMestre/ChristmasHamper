@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ChristmasHamper.Application.Contracts.Persistence;
-using ChristmasHamper.Application.Features.Organizations;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
 using ChristmasHamper.Application.Profiles;
 using ChristmasHamper.Application.UnitTests.Mocks;
