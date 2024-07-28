@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using ChristmasHamper.Application.Contracts.Persistence;
+﻿using ChristmasHamper.Application.Contracts.Persistence;
 using ChristmasHamper.Application.Features.Organizations.Commands.DeleteOrganization;
-using ChristmasHamper.Application.Profiles;
 using ChristmasHamper.Application.UnitTests.Mocks;
+using FluentAssertions;
 using Moq;
-using Shouldly;
 
 namespace ChristmasHamper.Application.UnitTests.Organizations.Commands;
 
@@ -26,10 +24,10 @@ public class DeleteOrganizationCommandHandlerTests
         var command = new DeleteOrganizationCommand(id);
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.IsSuccess.ShouldBeTrue();
+        result.IsSuccess.Should().BeTrue();
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
-        allOrganizations.Count.ShouldBe(2);
+        allOrganizations.Count.Should().Be(2);
     }
 
     [Fact]
@@ -42,15 +40,12 @@ public class DeleteOrganizationCommandHandlerTests
         var command = new DeleteOrganizationCommand(id);
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.IsSuccess.ShouldBeFalse();
-        result.Errors!.Count.ShouldBe(1);
+        result.IsSuccess.Should().BeFalse();
+        result.Errors!.Count.Should().Be(1);
 
-        if(result.Errors!.Count == 1)
-        {
-            result.Errors[0].Message.ShouldBe(validationError);
-        }
+        result.Errors.FirstOrDefault()!.Message.Should().Be(validationError);
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
-        allOrganizations.Count.ShouldBe(3);
+        allOrganizations.Count.Should().Be(3);
     }
 }

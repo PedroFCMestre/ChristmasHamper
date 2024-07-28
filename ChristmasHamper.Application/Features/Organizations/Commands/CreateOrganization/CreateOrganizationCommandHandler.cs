@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ChristmasHamper.Application.Contracts.Persistence;
+using ChristmasHamper.Application.Validation;
 using ChristmasHamper.Domain.Entities;
 using FluentResults;
 using MediatR;
@@ -22,8 +23,6 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
 
     public async Task<Result<CreateOrganizationCommandResponse>> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
     {
-        var response = new CreateOrganizationCommandResponse();
-
         var validator = new CreateOrganizationCommandValidator(_organizationRepository);
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -31,16 +30,14 @@ public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizati
         {
             _logger.LogInformation("Validation erros occured when trying to insert {@Organization}", request.Name);
 
-            return Result.Fail(validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            var errors = validationResult.Errors.Select(e => e.ErrorMessage);
+            return Result.Fail(errors.ConvertToValidationErrorList());
         }
         
-
         var organization = _mapper.Map<Organization>(request);
-
         organization = await _organizationRepository.AddAsync(organization);
 
-        response.Id = organization.Id;        
-
+        var response = _mapper.Map<CreateOrganizationCommandResponse>(organization);
         return Result.Ok(response);
     }
 }

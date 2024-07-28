@@ -4,9 +4,8 @@ using ChristmasHamper.Application.Features.Organizations;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
 using ChristmasHamper.Application.Profiles;
 using ChristmasHamper.Application.UnitTests.Mocks;
-using ChristmasHamper.Domain.Entities;
+using FluentAssertions;
 using Moq;
-using Shouldly;
 
 namespace ChristmasHamper.Application.UnitTests.Organizations.Queries;
 
@@ -34,9 +33,9 @@ public class GetOrganizationsListQueryHandlerTests
 
         var result = await handler.Handle(new GetOrganizationsListQuery(), CancellationToken.None);
 
-        result.ShouldBeOfType<List<OrganizationDto>>();
+        result.Value.Should().BeOfType<List<GetOrganizationsListQueryResponse>>();
 
-        result.Count.ShouldBe(3);
+        result.Value.Count.Should().Be(3);
     }
 }
 

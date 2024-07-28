@@ -3,8 +3,8 @@ using ChristmasHamper.Application.Contracts.Persistence;
 using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 using ChristmasHamper.Application.Profiles;
 using ChristmasHamper.Application.UnitTests.Mocks;
+using FluentAssertions;
 using Moq;
-using Shouldly;
 
 namespace ChristmasHamper.Application.UnitTests.Organizations.Commands;
 
@@ -36,10 +36,10 @@ public class UpdateOrganizationCommandHandlerTests
         var command = new UpdateOrganizationCommand() { Id = id, Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeTrue();
+        result.IsSuccess.Should().BeTrue();
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
-        allOrganizations.Count.ShouldBe(3);
+        allOrganizations.Count.Should().Be(3);
     }
 
     [Fact]
@@ -49,21 +49,18 @@ public class UpdateOrganizationCommandHandlerTests
         var id = 99;
         var name = "NewOrganization";
         var acronym = "NewAcronym";
-        var validationError = "ID provided does not exists.";
+        var validationError = "ID provided does not exist.";
 
         var command = new UpdateOrganizationCommand() { Id = id, Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(1);
+        result.IsSuccess.Should().BeFalse();
+        result.Errors!.Count.Should().Be(1);
 
-        if (result.ValidationErrors!.Count == 1)
-        {
-            result.ValidationErrors[0].ShouldBe(validationError);
-        }
-
+        result.Errors.FirstOrDefault()!.Message.Should().Be(validationError);
+        
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
-        allOrganizations.Count.ShouldBe(3);
+        allOrganizations.Count.Should().Be(3);
     }
 
     [Fact]
@@ -78,16 +75,13 @@ public class UpdateOrganizationCommandHandlerTests
         var command = new UpdateOrganizationCommand() { Id = id, Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(1);
+        result.IsSuccess.Should().BeFalse();
+        result.Errors!.Count.Should().Be(1);
 
-        if (result.ValidationErrors!.Count == 1)
-        {
-            result.ValidationErrors[0].ShouldBe(validationError);
-        }
+        result.Errors.FirstOrDefault()!.Message.Should().Be(validationError);
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
-        allOrganizations.Count.ShouldBe(3);
+        allOrganizations.Count.Should().Be(3);
     }
 
     [Fact]
@@ -102,16 +96,13 @@ public class UpdateOrganizationCommandHandlerTests
         var command = new UpdateOrganizationCommand() { Id = id, Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(1);
+        result.IsSuccess.Should().BeFalse();
+        result.Errors!.Count.Should().Be(1);
 
-        if (result.ValidationErrors!.Count == 1)
-        {
-            result.ValidationErrors[0].ShouldBe(validationError);
-        }
-
+        result.Errors.FirstOrDefault()!.Message.Should().Be(validationError);
+        
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
-        allOrganizations.Count.ShouldBe(3);
+        allOrganizations.Count.Should().Be(3);
     }
 
     [Fact]
@@ -127,17 +118,17 @@ public class UpdateOrganizationCommandHandlerTests
         var command = new UpdateOrganizationCommand() { Id = id, Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(2);
+        result.IsSuccess.Should().BeFalse();
+        result.Errors!.Count.Should().Be(2);
 
-        if (result.ValidationErrors!.Count == 2)
+        if (result.Errors!.Count == 2)
         {
-            result.ValidationErrors[0].ShouldBe(validationError1);
-            result.ValidationErrors[1].ShouldBe(validationError2);
+            result.Errors[0].Message.Should().Be(validationError1);
+            result.Errors[1].Message.Should().Be(validationError2);
         }
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
-        allOrganizations.Count.ShouldBe(3);
+        allOrganizations.Count.Should().Be(3);
     }
 
     [Fact]
@@ -152,16 +143,13 @@ public class UpdateOrganizationCommandHandlerTests
         var command = new UpdateOrganizationCommand() { Id = id, Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(1);
+        result.IsSuccess.Should().BeFalse();
+        result.Errors!.Count.Should().Be(1);
 
-        if (result.ValidationErrors!.Count == 1)
-        {
-            result.ValidationErrors[0].ShouldBe(validationError);
-        }
-
+        result.Errors.FirstOrDefault()!.Message.Should().Be(validationError);
+        
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
-        allOrganizations.Count.ShouldBe(3);
+        allOrganizations.Count.Should().Be(3);
     }
 
     [Fact]
@@ -176,15 +164,12 @@ public class UpdateOrganizationCommandHandlerTests
         var command = new UpdateOrganizationCommand() { Id = id, Name = name, Acronym = acronym };
         var result = await handler.Handle(command, CancellationToken.None);
 
-        result.Success.ShouldBeFalse();
-        result.ValidationErrors!.Count.ShouldBe(1);
+        result.IsSuccess.Should().BeFalse();
+        result.Errors!.Count.Should().Be(1);
 
-        if (result.ValidationErrors!.Count == 1)
-        {
-            result.ValidationErrors[0].ShouldBe(validationError);
-        }
+        result.Errors.FirstOrDefault()!.Message.Should().Be(validationError);
 
         var allOrganizations = await _mockOrganizationRepository.Object.ListAllAsync();
-        allOrganizations.Count.ShouldBe(3);
+        allOrganizations.Count.Should().Be(3);
     }
 }

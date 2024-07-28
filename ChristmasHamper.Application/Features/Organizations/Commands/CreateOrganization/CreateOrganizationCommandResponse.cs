@@ -1,14 +1,9 @@
-﻿using ChristmasHamper.Application.Responses;
+﻿namespace ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganization;
 
-namespace ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganization;
-
-public class CreateOrganizationCommandResponse
+public record CreateOrganizationCommandResponse
 {
-    public int Id { get; set; } = default;
-
-    public CreateOrganizationCommandResponse()
-    {
-        
-    }
+    public int Id { get; set; }
+    public string Name { get; set; } = default!;
+    public string Acronym { get; set; } = default!;
 }
 

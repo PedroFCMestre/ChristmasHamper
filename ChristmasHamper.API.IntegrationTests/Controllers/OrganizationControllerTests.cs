@@ -2,6 +2,8 @@
 using ChristmasHamper.Application.Features.Organizations;
 using ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganization;
 using ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
+using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
+using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
 using ChristmasHamper.Application.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -37,9 +39,9 @@ public class OrganizationControllerTests: IClassFixture<CustomWebApplicationFact
 
         var responseString = await response.Content.ReadAsStringAsync();
 
-        var result = JsonSerializer.Deserialize<List<OrganizationDto>>(responseString, Utilities.options);
+        var result = JsonSerializer.Deserialize<List<GetOrganizationsListQueryResponse>>(responseString, Utilities.options);
 
-        result.Should().BeOfType<List<OrganizationDto>>();
+        result.Should().BeOfType<List<GetOrganizationsListQueryResponse>>();
         result.Should().NotBeEmpty();
     }
 
@@ -58,9 +60,9 @@ public class OrganizationControllerTests: IClassFixture<CustomWebApplicationFact
 
         var responseString = await response.Content.ReadAsStringAsync();
 
-        var result = JsonSerializer.Deserialize<OrganizationDto>(responseString, Utilities.options);
+        var result = JsonSerializer.Deserialize<GetOrganizationQueryResponse>(responseString, Utilities.options);
 
-        result.Should().BeOfType<OrganizationDto>();
+        result.Should().BeOfType<GetOrganizationQueryResponse>();
         result.Should().NotBeNull();
         result?.Id.Should().Be(organizationId);
     }
@@ -157,11 +159,6 @@ public class OrganizationControllerTests: IClassFixture<CustomWebApplicationFact
 
         //Assert
         response.EnsureSuccessStatusCode();
-
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<BaseResponse>(responseContent, Utilities.options);
-
-        result.Should().BeOfType<BaseResponse>();
     }
 
     [Fact]

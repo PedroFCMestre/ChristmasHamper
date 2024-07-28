@@ -1,13 +1,37 @@
-﻿using FluentResults;
+﻿using ChristmasHamper.Application.Validation;
+using FluentResults;
+using MediatR.NotificationPublishers;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChristmasHamper.API.Extensions;
 
 public static class ResultExtensions
 {
-    public static ProblemDetails HandleNotFoundError(this Result result)
+    public static ActionResult HandleError<T>(this Result<T> result)
     {
-        var details = new ProblemDetails()
+        var firstError = result.Errors.FirstOrDefault();
+
+        if (firstError is NotFoundError)
+        {
+            return HandleNotFoundError(result);
+        }
+        else if (firstError is ValidationError)
+        {
+            return HandleValidationError(result);
+        }
+
+        return new BadRequestObjectResult(new ProblemDetails
+        {
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Title = "Unexpected Error",
+            Detail = result.Errors.FirstOrDefault()?.Message ?? string.Empty
+        });
+    }
+
+    private static NotFoundObjectResult HandleNotFoundError<T>(Result<T> result)
+    {
+        var problem = new ProblemDetails()
         {
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
             Title = "Resource not found",
@@ -15,19 +39,19 @@ public static class ResultExtensions
             Detail = result.Errors.FirstOrDefault()?.Message ?? string.Empty
         };
 
-        return details;
+        return new NotFoundObjectResult(problem);
     }
 
-    public static ValidationProblemDetails HandleValidationError<T>(this Result<T> result)
+    private static BadRequestObjectResult HandleValidationError<T>(Result<T> result)
     {
         var errors = new Dictionary<string, string[]> { { "ValidationErrors", result.Errors.Select(e => e.Message).ToArray() } };
 
-        var details = new ValidationProblemDetails(errors)
+        var problem = new ValidationProblemDetails(errors)
         {
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
             Title = "Validation error"
         };
 
-        return details;
+        return new BadRequestObjectResult(problem);
     }
 }

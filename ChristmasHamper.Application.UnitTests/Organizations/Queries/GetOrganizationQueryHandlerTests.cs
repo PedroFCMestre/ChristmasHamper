@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using ChristmasHamper.Application.Contracts.Persistence;
-using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
 using ChristmasHamper.Application.Features.Organizations;
 using ChristmasHamper.Application.UnitTests.Mocks;
 using Moq;
 using ChristmasHamper.Application.Profiles;
 using ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
-using Shouldly;
+using FluentAssertions;
 
 namespace ChristmasHamper.Application.UnitTests.Organizations.Queries;
 
@@ -35,8 +34,8 @@ public class GetOrganizationQueryHandlerTests
 
         var result = await handler.Handle(new GetOrganizationQuery(id), CancellationToken.None);
 
-        result.ShouldBeOfType<OrganizationDto>();
-        result.Id.ShouldBe(id);
+        result.Value.Should().BeOfType<GetOrganizationQueryResponse>();
+        result.Value.Id.Should().Be(id);
     }
 
     [Fact]
@@ -47,6 +46,6 @@ public class GetOrganizationQueryHandlerTests
 
         var result = await handler.Handle(new GetOrganizationQuery(id), CancellationToken.None);
 
-        result.ShouldBe(null);
+        result.IsSuccess.Should().BeFalse();
     }
 }

@@ -23,7 +23,7 @@ public class UpdateOrganizationCommandValidator : AbstractValidator<UpdateOrgani
            .MaximumLength(10).WithMessage("{PropertyName} must not exceed 10 characters.");
 
         RuleFor(x => x)
-            .MustAsync(OrganizationValidId).WithMessage("ID provided does not exists.")
+            //.MustAsync(OrganizationValidId).WithMessage("ID provided does not exist.")
             .MustAsync(OrganizationWithNameUnique).WithMessage("An organization with the same name already exists.")
             .MustAsync(OrganizationWithAcronymUnique).WithMessage("An organization with the same acronym already exists.");
 

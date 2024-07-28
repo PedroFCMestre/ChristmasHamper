@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using ChristmasHamper.Application.Contracts.Persistence;
 using ChristmasHamper.Application.Responses;
+using ChristmasHamper.Application.Validation;
 using ChristmasHamper.Domain.Entities;
+using FluentResults;
 using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 
-public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizationCommand, BaseResponse>
+public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizationCommand, Result<Unit>>
 {
     private readonly IOrganizationRepository _organizationRepository;
     private readonly IMapper _mapper;
@@ -17,30 +19,30 @@ public class UpdateOrganizationCommandHandler : IRequestHandler<UpdateOrganizati
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task<BaseResponse> Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit>> Handle(UpdateOrganizationCommand request, CancellationToken cancellationToken)
     {
-        var response = new BaseResponse();
 
         var validator = new UpdateOrganizationCommandValidator(_organizationRepository);
-        var validatorResult = await validator.ValidateAsync(request, cancellationToken);
+        var validatonResult = await validator.ValidateAsync(request, cancellationToken);
 
-        if(!validatorResult.IsValid)
+        if(!validatonResult.IsValid)
         {
-            response.Success = false;
-            response.Message = "Organization not updated because of validation errors.";
-            response.ValidationErrors = validatorResult.Errors.Select(e => e.ErrorMessage).ToList();
+            var errors = validatonResult.Errors.Select(e => e.ErrorMessage);
+            return Result.Fail(errors.ConvertToValidationErrorList());
         }
-        else
+    
+        var organizationToUpdate = await _organizationRepository.GetByIdAsync(request.Id);
+
+        if(organizationToUpdate is null)
         {
-            var organizationToUpdate = await _organizationRepository.GetByIdAsync(request.Id);
-
-            _mapper.Map(request, organizationToUpdate, typeof(UpdateOrganizationCommand), typeof(Organization));
-            //_mapper.Map(request, organizationToUpdate);
-
-            await _organizationRepository.UpdateAsync(organizationToUpdate!);
+            return Result.Fail(new NotFoundError("ID provided does not exist."));
         }
 
-        return response;
+        _mapper.Map(request, organizationToUpdate, typeof(UpdateOrganizationCommand), typeof(Organization));
+        //_mapper.Map(request, organizationToUpdate);
+
+        await _organizationRepository.UpdateAsync(organizationToUpdate!);
+        
+        return Result.Ok(Unit.Value);
     }
 }
-

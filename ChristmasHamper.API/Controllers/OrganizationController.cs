@@ -26,25 +26,32 @@ public class OrganizationController : Controller
 
     [HttpGet("all", Name ="GetAllOrganizations")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<OrganizationDto>>> GetAllOrganizations()
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult<List<GetOrganizationsListQueryResponse>>> GetAllOrganizations()
     {
-        var dto = await _mediator.Send(new GetOrganizationsListQuery());
-        return Ok(dto);
+        var response = await _mediator.Send(new GetOrganizationsListQuery());
+
+        if (response.Value.Count == 0)
+        {
+            return NoContent();
+        }
+
+        return Ok(response.Value);
     }
 
     [HttpGet("{id:int}", Name = "GetOrganizationById")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<OrganizationDto>> GetOrganizationById(int id)
+    public async Task<ActionResult<GetOrganizationQueryResponse>> GetOrganizationById(int id)
     {
-        var dto = await _mediator.Send(new GetOrganizationQuery(id));
+        var response = await _mediator.Send(new GetOrganizationQuery(id));
 
-        if (dto == null) 
-        { 
-            return NotFound();
+        if (response.IsFailed) 
+        {
+            return response.HandleError();
         }
         
-        return Ok(dto);
+        return Ok(response.Value);
     }
 
     [HttpPost(Name = "AddOrganization")]
@@ -58,38 +65,38 @@ public class OrganizationController : Controller
 
         if (result.IsFailed)
         {
-             return BadRequest(result.HandleValidationError());
+             return result.HandleError();
         }
 
         return CreatedAtAction(nameof(GetOrganizationById), new {id = result.Value.Id}, result.Value);
     }
 
     [HttpPut(Name = "UpdateOrganization")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<BaseResponse>> UpdateOrganization([FromBody] UpdateOrganizationCommand updateOrganizationCommand)
+    public async Task<ActionResult<Unit>> UpdateOrganization([FromBody] UpdateOrganizationCommand updateOrganizationCommand)
     {
-        var response = await _mediator.Send(updateOrganizationCommand);
+        var result = await _mediator.Send(updateOrganizationCommand);
 
-        if (response.Success)
+        if (result.IsFailed)
         {
-            return Ok(response);
+            return result.HandleError();
         }
 
-        return BadRequest(response);
+        return NoContent();
     }
 
 
     [HttpDelete("{id:int}", Name = "DeleteOrganization")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> DeleteOrganization(int id)
+    public async Task<ActionResult<Unit>> DeleteOrganization(int id)
     {
         var result = await _mediator.Send(new DeleteOrganizationCommand(id));
 
         if (result.IsFailed)
         {
-            return NotFound(result.HandleNotFoundError());
+            return result.HandleError();
         }
 
         return NoContent();

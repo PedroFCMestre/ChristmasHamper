@@ -1,6 +1,6 @@
-﻿namespace ChristmasHamper.Application.Features.Organizations;
+﻿namespace ChristmasHamper.Application.Features.Organizations.Queries.GetOrganization;
 
-public class OrganizationDto
+public record GetOrganizationQueryResponse
 {
     public int Id { get; set; }
     public string Name { get; set; } = default!;

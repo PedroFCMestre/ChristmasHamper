@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using ChristmasHamper.Application.Contracts.Persistence;
 using ChristmasHamper.Domain.Entities;
+using FluentResults;
 using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
 
-public class GetOrganizationsListQueryHandler : IRequestHandler<GetOrganizationsListQuery, List<OrganizationDto>>
+public class GetOrganizationsListQueryHandler : IRequestHandler<GetOrganizationsListQuery, Result<List<GetOrganizationsListQueryResponse>>>
 {
     private readonly IAsyncRepository<Organization> _organizationRepository;
     private readonly IMapper _mapper;
@@ -16,11 +17,11 @@ public class GetOrganizationsListQueryHandler : IRequestHandler<GetOrganizations
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    public async Task<List<OrganizationDto>> Handle(GetOrganizationsListQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<GetOrganizationsListQueryResponse>>> Handle(GetOrganizationsListQuery request, CancellationToken cancellationToken)
     {
         var allOrganizations = await _organizationRepository.ListAllAsync();
 
-        return _mapper.Map<List<OrganizationDto>>(allOrganizations);
+        return Result.Ok(_mapper.Map<List<GetOrganizationsListQueryResponse>>(allOrganizations));
     }
 }
 

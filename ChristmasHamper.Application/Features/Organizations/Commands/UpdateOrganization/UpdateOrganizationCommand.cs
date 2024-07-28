@@ -1,9 +1,9 @@
-﻿using ChristmasHamper.Application.Responses;
+﻿using FluentResults;
 using MediatR;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.UpdateOrganization;
 
-public class UpdateOrganizationCommand : IRequest<BaseResponse>
+public record UpdateOrganizationCommand : IRequest<Result<Unit>>
 {
     public int Id { get; set; }
     public required string Name { get; set; }
