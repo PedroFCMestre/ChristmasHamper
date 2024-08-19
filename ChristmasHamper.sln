@@ -31,9 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChristmasHamper.Persistence
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChristmasHamper.Infrastructure", "ChristmasHamper.Infrastructure\ChristmasHamper.Infrastructure.csproj", "{ED3C2DB5-288F-4C13-848B-29BA575FF442}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChristmasHamper.WebApp", "ChristmasHamper.WebApp\ChristmasHamper.WebApp.csproj", "{7E17473A-9523-488E-9730-AAF07334032B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChristmasHamper.WebApp", "ChristmasHamper.WebApp\ChristmasHamper.WebApp.csproj", "{7E17473A-9523-488E-9730-AAF07334032B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChristmasHamper.ApiClient", "ChristmasHamper.ApiClient\ChristmasHamper.ApiClient.csproj", "{9CE3C7E6-4677-4D39-A81E-78BF21945CF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChristmasHamper.ApiClient", "ChristmasHamper.ApiClient\ChristmasHamper.ApiClient.csproj", "{9CE3C7E6-4677-4D39-A81E-78BF21945CF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

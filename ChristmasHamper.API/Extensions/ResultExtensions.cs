@@ -1,7 +1,5 @@
 ﻿using ChristmasHamper.Application.Validation;
 using FluentResults;
-using MediatR.NotificationPublishers;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChristmasHamper.API.Extensions;

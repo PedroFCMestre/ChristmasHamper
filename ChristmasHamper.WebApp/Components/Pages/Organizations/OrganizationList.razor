@@ -1,0 +1,52 @@
+﻿@page "/organizations"
+@using ChristmasHamper.ApiClient.Contracts
+@using ChristmasHamper.ApiClient.ViewModels
+@attribute [StreamRendering]
+@inject IOrganizationDataService organizationDataService
+
+<PageTitle>Organization List</PageTitle>
+
+<h3>OrganizationList</h3>
+
+ @if (organizations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Organization name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in organizations)
+            {
+                <tr>
+                    <td>@item.Name </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<OrganizationViewModel> organizations = new List<OrganizationViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        organizations = await organizationDataService.GetAllOrganizations();
+    }
+}
+
+
+
+
+
+
+
+
+
+

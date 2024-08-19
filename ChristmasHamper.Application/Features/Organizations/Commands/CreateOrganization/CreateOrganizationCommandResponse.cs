@@ -3,7 +3,7 @@
 public record CreateOrganizationCommandResponse
 {
     public int Id { get; set; }
-    public string Name { get; set; } = default!;
-    public string Acronym { get; set; } = default!;
+    public string Name { get; set; } = string.Empty;
+    public string Acronym { get; set; } = string.Empty;
 }
 

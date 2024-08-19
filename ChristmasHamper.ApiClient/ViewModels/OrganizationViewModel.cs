@@ -1,6 +1,6 @@
-﻿namespace ChristmasHamper.Application.Features.Organizations.Queries.GetOrganizationsList;
+﻿namespace ChristmasHamper.ApiClient.ViewModels;
 
-public record GetOrganizationsListQueryResponse
+public class OrganizationViewModel
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
