@@ -10,9 +10,9 @@ public class RepositoryMocks
     {
         var organizations = new List<Organization>
         {
-            new() {Id = 1, Name = "Organization1", Acronym = "Og1"},
-            new() {Id = 2, Name = "Organization2", Acronym = "Og2"},
-            new() {Id = 3, Name = "Organization3", Acronym = "Og3"}
+            new() {Name = "Organization1", Acronym = "Og1"},
+            new() {Name = "Organization2", Acronym = "Og2"},
+            new() {Name = "Organization3", Acronym = "Og3"}
         };
 
         var mockOrganizationRepository = new Mock<IOrganizationRepository>();

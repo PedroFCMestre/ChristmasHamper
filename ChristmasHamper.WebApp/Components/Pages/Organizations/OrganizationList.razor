@@ -6,26 +6,31 @@
 
 <PageTitle>Organization List</PageTitle>
 
-<h3>OrganizationList</h3>
+<h3>Organizations</h3>
 
  @if (organizations == null)
 {
     <p><em>Loading...</em></p>
 }
+else if (!organizations.Any())
+{
+    <p>No organizations found.</p>
+}
 else
 {
-    <table>
+    <table class="table">
         <thead>
             <tr>
-                <th>Organization name</th>
+                <th>Name</th>
+                <th>Acronym</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in organizations)
             {
                 <tr>
-                    <td>@item.Name </td>
-
+                    <td>@item.Name</td>
+                    <td>@item.Acronym</td>
                 </tr>
             }
         </tbody>
@@ -33,7 +38,7 @@ else
 }
 
 @code {
-    private List<OrganizationViewModel> organizations = new List<OrganizationViewModel>();
+    private List<OrganizationViewModel>? organizations;
 
     protected override async Task OnInitializedAsync()
     {

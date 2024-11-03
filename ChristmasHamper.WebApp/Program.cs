@@ -1,8 +1,7 @@
 using ChristmasHamper.ApiClient;
-using ChristmasHamper.ApiClient.Contracts;
-using ChristmasHamper.ApiClient.Services;
 using ChristmasHamper.ApiClient.Services.Base;
 using ChristmasHamper.WebApp.Components;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 

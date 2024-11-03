@@ -18,8 +18,8 @@ public static class Utilities
 
     public async static void InitializeDbForTests(ChristmasHamperDbContext dbContext)
     {
-        dbContext.Organizations.Add(new Organization { Id = 1, Name = "Organization1", Acronym = "Og1" });
-        dbContext.Organizations.Add(new Organization { Id = 2, Name = "Organization2", Acronym = "Og2" });
+        dbContext.Organizations.Add(new Organization { Name = "Organization1", Acronym = "Og1" });
+        dbContext.Organizations.Add(new Organization { Name = "Organization2", Acronym = "Og2" });
 
         await dbContext.SaveChangesAsync();
     }

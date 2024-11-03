@@ -17,7 +17,7 @@ public class ChristmasHamperDbContextTests
     [Fact]
     public async void Save_SetCreatedByProperty()
     {
-        var organization = new Organization() { Id = 3, Name = "New Organization3", Acronym = "Og3" };
+        var organization = new Organization() { Name = "New Organization3", Acronym = "Og3" };
 
         _dbContext.Organizations.Add(organization);
         await _dbContext.SaveChangesAsync();

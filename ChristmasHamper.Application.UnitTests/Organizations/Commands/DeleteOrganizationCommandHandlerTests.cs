@@ -19,7 +19,7 @@ public class DeleteOrganizationCommandHandlerTests
     public async Task DeleteOrganization_WithValidId_DeletesSuccessfully()
     {
         var handler = new DeleteOrganizationCommandHandler(_mockOrganizationRepository.Object);
-        var id = 1;
+        var id = 0;
 
         var command = new DeleteOrganizationCommand(id);
         var result = await handler.Handle(command, CancellationToken.None);

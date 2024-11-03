@@ -29,7 +29,7 @@ public class GetOrganizationQueryHandlerTests
     public async Task WithExistentId_ReturnOrganization()
     {
         var handler = new GetOrganizationQueryHandler(_mockOrganizationRepository.Object, _mapper);
-        var id = 1;
+        var id = 0;
 
         var result = await handler.Handle(new GetOrganizationQuery(id), CancellationToken.None);
 

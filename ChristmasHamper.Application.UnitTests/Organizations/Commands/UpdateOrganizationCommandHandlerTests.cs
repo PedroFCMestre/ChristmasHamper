@@ -29,7 +29,7 @@ public class UpdateOrganizationCommandHandlerTests
     public async Task UpdateOrganization_WithUniqueFields_UpdatesSuccessfully()
     {
         var handler = new UpdateOrganizationCommandHandler(_mockOrganizationRepository.Object, _mapper);
-        var id = 1;
+        var id = 0;
         var name = "NewOrganization";
         var acronym = "NewAcronym";
 

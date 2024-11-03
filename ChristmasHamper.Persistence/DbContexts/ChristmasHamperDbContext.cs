@@ -32,7 +32,7 @@ public class ChristmasHamperDbContext: DbContext
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        foreach (var entry in ChangeTracker.Entries<Auditable>())
+        foreach (var entry in ChangeTracker.Entries<Entity>())
         {
             switch (entry.State)
             {
