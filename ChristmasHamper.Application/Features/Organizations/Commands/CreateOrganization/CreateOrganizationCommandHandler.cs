@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ChristmasHamper.Application.Features.Organizations.Commands.CreateOrganization;
 
-public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, Result<CreateOrganizationCommandResponse>>
+public sealed class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, Result<CreateOrganizationCommandResponse>>
 {
     private readonly IOrganizationRepository _organizationRepository;
     private readonly IMapper _mapper;

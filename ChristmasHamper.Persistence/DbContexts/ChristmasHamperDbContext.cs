@@ -1,5 +1,5 @@
 ﻿using ChristmasHamper.Application.Contracts;
-using ChristmasHamper.Domain.Common;
+using ChristmasHamper.Domain.Primitives;
 using ChristmasHamper.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-﻿using ChristmasHamper.Domain.Common;
+﻿using ChristmasHamper.Domain.Primitives;
 
 namespace ChristmasHamper.Domain.Entities;
 

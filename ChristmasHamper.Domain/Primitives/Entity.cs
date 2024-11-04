@@ -1,4 +1,4 @@
-﻿namespace ChristmasHamper.Domain.Common;
+﻿namespace ChristmasHamper.Domain.Primitives;
 
 public abstract class Entity
 {

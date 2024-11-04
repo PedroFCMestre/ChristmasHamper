@@ -1,14 +1,10 @@
-﻿using ChristmasHamper.Domain.Common;
+﻿using ChristmasHamper.Domain.Primitives;
 
 namespace ChristmasHamper.Domain.Entities;
 
-public class Committee: Entity
+public class Committee: AggregateRoot
 {
-    public required Organization Organization { get; set; }
-
-    public required string Name { get; set;}
-
-    public int Year { get; set; }
+    public int Year { get; private set; }
 
     public required IEnumerable<User> Members { get; set; }
 }
