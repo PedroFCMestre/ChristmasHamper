@@ -2,8 +2,8 @@
 
 public abstract class Entity
 {
-    public int Id { get; private set; }
-    public string? CreatedBy { get; set; }
+    public long Id { get; private set; }
+    public string CreatedBy { get; set; } = string.Empty;
     public DateTime CreatedOn { get; set; }
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedOn { get; set; }
@@ -19,7 +19,7 @@ public abstract class Entity
         if (GetType() != other.GetType())
             return false;
 
-        if (Id != other.Id)
+        if (Id == 0 || other.Id == 0)
             return false;
 
         return Id == other.Id;
